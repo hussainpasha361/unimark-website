@@ -180,19 +180,20 @@ html.no-loader .loader { display: none; }
 .hero-scroll i::after { content: ''; position: absolute; inset: 0; background: var(--red); animation: drip 2.2s var(--ease) infinite; }
 @keyframes drip { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
 
-.hero-media { position: relative; height: 100vh; }
-.hero-frame { position: sticky; top: 0; height: 100vh; overflow: hidden; clip-path: inset(0 var(--gutter) 22vh var(--gutter) round var(--radius)); will-change: clip-path; background: var(--ink); }
+/* product slideshow: a contained landscape panel (whole pack visible) with the caption underneath */
+.hero-media { position: relative; padding: 0 var(--gutter) clamp(10px, 2vw, 30px); }
+.hero-frame { position: relative; display: flex; flex-direction: column; width: min(100%, calc(64vh * 1.5), 1120px); margin-inline: auto; }
+[data-slides] { position: relative; aspect-ratio: 3 / 2; border-radius: var(--radius); overflow: hidden; background: var(--ink); }
 .hero-frame .slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(0 0 0 100%); }
 .hero-frame .slide.on { clip-path: inset(0 0 0 0); }
-.hero-frame::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16,16,16,0) 45%, rgba(16,16,16,0.7) 100%); pointer-events: none; }
-.hero-caption { position: absolute; left: calc(var(--gutter) * 2); right: calc(var(--gutter) * 2); bottom: calc(22vh + 26px); z-index: 2; display: flex; justify-content: space-between; align-items: end; gap: 20px; color: var(--paper); }
-.hero-caption .cap-name { font-size: clamp(1.8rem, 3.6vw, 3.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
-.hero-caption .cap-gen { opacity: 0.8; margin-top: 8px; }
-.hero-caption .cap-right { display: flex; align-items: center; gap: 16px; }
-.slide-count { font-family: var(--f-mono); font-size: 13px; white-space: nowrap; }
-.slide-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(242,239,231,.5); display: grid; place-items: center; transition: background 0.3s, color 0.3s; }
-.slide-btn:hover { background: var(--paper); color: var(--ink); }
-.slide-bar { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--red-2); z-index: 3; width: 100%; transform-origin: left; transform: scaleX(0); }
+.slide-bar { order: 1; position: relative; display: block; margin-top: 12px; height: 3px; background: var(--red-2); width: 100%; transform-origin: left; transform: scaleX(0); }
+.hero-caption { order: 2; display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-top: 16px; color: var(--text); }
+.hero-caption .cap-name { font-size: clamp(1.7rem, 2.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+.hero-caption .cap-gen { color: var(--muted); margin-top: 8px; }
+.hero-caption .cap-right { display: flex; align-items: center; gap: 12px; flex: none; }
+.slide-count { font-family: var(--f-mono); font-size: 13px; white-space: nowrap; color: var(--muted); }
+.slide-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+.slide-btn:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 
 /* ==========================================================================
    Two pillars: Our brands / Toll manufacturing
@@ -536,19 +537,9 @@ html.no-loader .loader { display: none; }
   .hero-title .script { padding-left: 0.1em; }
   .hero-row { grid-template-columns: 1fr; padding-block: 24px 30px; }
   .hero-actions { justify-content: flex-start; }
-  /* phones: a landscape panel that shows the whole pack, with the caption underneath */
-  .hero-media { height: auto; padding-inline: var(--gutter); }
-  .hero-frame { position: relative; height: auto; overflow: visible; clip-path: none; background: none; display: flex; flex-direction: column; }
-  .hero-frame::after { display: none; }
-  [data-slides] { position: relative; aspect-ratio: 3 / 2; border-radius: 16px; overflow: hidden; background: var(--ink); }
-  .slide-bar { order: 1; position: relative; margin-top: 10px; height: 3px; }
-  .hero-caption { order: 2; position: static; color: var(--text); margin-top: 14px; align-items: center; }
   .hero-caption .cap-name { font-size: 1.7rem; }
-  .hero-caption .cap-gen { color: var(--muted); opacity: 1; font-size: 15px; margin-top: 6px; }
-  .hero-caption .cap-right { gap: 8px; flex: none; }
-  .slide-count { white-space: nowrap; }
-  .slide-btn { width: 42px; height: 42px; border-color: var(--line); }
-  .slide-btn:hover { background: var(--ink); color: var(--paper); }
+  .hero-caption .cap-gen { font-size: 15px; margin-top: 6px; }
+  .slide-btn { width: 42px; height: 42px; }
   .hero-caption .cap-right .slide-count { display: none; }
   .paths { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: 1fr; }

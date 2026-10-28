@@ -73,20 +73,6 @@ if (reduced || seen) {
     .add(() => heroIn(0), '-=0.55');
 }
 
-// ---------------------------------------------------------------- hero frame expands on scroll
-// Phones get a static landscape slideshow instead (see styles.css), so the full pack stays in view.
-gsap.matchMedia().add('(min-width: 761px) and (prefers-reduced-motion: no-preference)', () => {
-  const frame = document.querySelector('[data-hero-frame]');
-  const gutter = getComputedStyle(document.documentElement).getPropertyValue('--gutter').trim();
-  const inset = () => 0.22;
-  gsap.fromTo(frame,
-    { clipPath: () => `inset(0px ${gutter} ${inset() * 100}vh ${gutter} round 20px)` },
-    { clipPath: 'inset(0px 0px 0vh 0px round 0px)', ease: 'none',
-      scrollTrigger: { trigger: '[data-hero-media]', start: 'top 70%', end: 'top top', scrub: true, invalidateOnRefresh: true } });
-  gsap.fromTo('.hero-caption', { y: 0 }, { y: () => window.innerHeight * inset(), ease: 'none',
-    scrollTrigger: { trigger: '[data-hero-media]', start: 'top 70%', end: 'top top', scrub: true, invalidateOnRefresh: true } });
-});
-
 // ---------------------------------------------------------------- hero product slideshow
 const order = [products.find((p) => p.id === 'miodarone-200'), ...products.filter((p) => p.id !== 'miodarone-200')];
 const slideBox = document.querySelector('[data-slides]');
@@ -110,6 +96,12 @@ function ensure(i) {
   return img;
 }
 
+function setCaption(p, i) {
+  capName.textContent = `${p.brand} ${p.strength}`;
+  capGen.textContent = `${p.generic} · ${p.cls}`;
+  capCount.textContent = `${String(i + 1).padStart(2, '0')} / ${order.length}`;
+}
+
 async function go(i) {
   if (busy) return;
   busy = true;
@@ -123,11 +115,13 @@ async function go(i) {
   } else {
     gsap.fromTo(next, { clipPath: 'inset(0 0 0 100%)', scale: 1.08 }, { clipPath: 'inset(0 0 0 0%)', scale: 1, duration: 1.2, ease: 'expo.inOut', onComplete: () => { prev.classList.remove('on'); gsap.set(prev, { clearProps: 'clipPath' }); } });
     next.classList.add('on');
-    gsap.fromTo([capName, capGen], { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, ease: 'expo.out', stagger: 0.06, delay: 0.3 });
+    // swap the caption as the new photo crosses the middle, so name and picture always match
+    gsap.timeline()
+      .to([capName, capGen], { yPercent: -30, opacity: 0, duration: 0.3, ease: 'power2.in' })
+      .add(() => setCaption(p, i), 0.5)
+      .fromTo([capName, capGen], { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.06 }, 0.5);
   }
-  capName.textContent = `${p.brand} ${p.strength}`;
-  capGen.textContent = `${p.generic} · ${p.cls}`;
-  capCount.textContent = `${String(i + 1).padStart(2, '0')} / ${order.length}`;
+  if (reduced) setCaption(p, i);
   cur = i;
   setTimeout(() => { busy = false; }, reduced ? 0 : 1100);
   if (playing) schedule();
