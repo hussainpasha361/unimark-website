@@ -189,7 +189,7 @@ html.no-loader .loader { display: none; }
 .hero-caption .cap-name { font-size: clamp(1.8rem, 3.6vw, 3.4rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
 .hero-caption .cap-gen { opacity: 0.8; margin-top: 8px; }
 .hero-caption .cap-right { display: flex; align-items: center; gap: 16px; }
-.slide-count { font-family: var(--f-mono); font-size: 13px; }
+.slide-count { font-family: var(--f-mono); font-size: 13px; white-space: nowrap; }
 .slide-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(242,239,231,.5); display: grid; place-items: center; transition: background 0.3s, color 0.3s; }
 .slide-btn:hover { background: var(--paper); color: var(--ink); }
 .slide-bar { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--red-2); z-index: 3; width: 100%; transform-origin: left; transform: scaleX(0); }
@@ -536,9 +536,20 @@ html.no-loader .loader { display: none; }
   .hero-title .script { padding-left: 0.1em; }
   .hero-row { grid-template-columns: 1fr; padding-block: 24px 30px; }
   .hero-actions { justify-content: flex-start; }
-  .hero-frame { clip-path: inset(0 var(--gutter) 18vh var(--gutter) round 16px); }
-  .hero-caption { bottom: calc(18vh + 20px); }
-  .hero-caption .cap-right .slide-btn { display: none; }
+  /* phones: a landscape panel that shows the whole pack, with the caption underneath */
+  .hero-media { height: auto; padding-inline: var(--gutter); }
+  .hero-frame { position: relative; height: auto; overflow: visible; clip-path: none; background: none; display: flex; flex-direction: column; }
+  .hero-frame::after { display: none; }
+  [data-slides] { position: relative; aspect-ratio: 3 / 2; border-radius: 16px; overflow: hidden; background: var(--ink); }
+  .slide-bar { order: 1; position: relative; margin-top: 10px; height: 3px; }
+  .hero-caption { order: 2; position: static; color: var(--text); margin-top: 14px; align-items: center; }
+  .hero-caption .cap-name { font-size: 1.7rem; }
+  .hero-caption .cap-gen { color: var(--muted); opacity: 1; font-size: 15px; margin-top: 6px; }
+  .hero-caption .cap-right { gap: 8px; flex: none; }
+  .slide-count { white-space: nowrap; }
+  .slide-btn { width: 42px; height: 42px; border-color: var(--line); }
+  .slide-btn:hover { background: var(--ink); color: var(--paper); }
+  .hero-caption .cap-right .slide-count { display: none; }
   .paths { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: 1fr; }
   .about-side { position: static; }

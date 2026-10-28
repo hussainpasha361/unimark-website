@@ -74,17 +74,18 @@ if (reduced || seen) {
 }
 
 // ---------------------------------------------------------------- hero frame expands on scroll
-if (!reduced) {
+// Phones get a static landscape slideshow instead (see styles.css), so the full pack stays in view.
+gsap.matchMedia().add('(min-width: 761px) and (prefers-reduced-motion: no-preference)', () => {
   const frame = document.querySelector('[data-hero-frame]');
   const gutter = getComputedStyle(document.documentElement).getPropertyValue('--gutter').trim();
-  const inset = () => (window.innerWidth < 760 ? 0.18 : 0.22);
+  const inset = () => 0.22;
   gsap.fromTo(frame,
     { clipPath: () => `inset(0px ${gutter} ${inset() * 100}vh ${gutter} round 20px)` },
     { clipPath: 'inset(0px 0px 0vh 0px round 0px)', ease: 'none',
       scrollTrigger: { trigger: '[data-hero-media]', start: 'top 70%', end: 'top top', scrub: true, invalidateOnRefresh: true } });
   gsap.fromTo('.hero-caption', { y: 0 }, { y: () => window.innerHeight * inset(), ease: 'none',
     scrollTrigger: { trigger: '[data-hero-media]', start: 'top 70%', end: 'top top', scrub: true, invalidateOnRefresh: true } });
-}
+});
 
 // ---------------------------------------------------------------- hero product slideshow
 const order = [products.find((p) => p.id === 'miodarone-200'), ...products.filter((p) => p.id !== 'miodarone-200')];
