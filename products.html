@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- @include head.html -->
+  <title>Products | UniMark Pharmaceuticals</title>
+  <meta name="description" content="UniMark's cardiovascular portfolio: beta-blockers, ARBs, statins, nitrates, antiarrhythmics and antiplatelets manufactured under cGMP." />
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body data-page="products">
+  <!-- @include header.html -->
+  <main id="main">
+    <section class="p-hero wrap">
+      <span class="eyebrow">Product portfolio</span>
+      <h1 data-split>Medicines for <span class="script">every beat.</span></h1>
+      <div class="p-hero-row">
+        <p data-fade>Nine brands, fifteen cardiovascular formulations: hypertension, angina, lipid management, rhythm control and antiplatelet therapy, each manufactured and released under cGMP at our Rawat plant.</p>
+        <span class="hcp" data-fade><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16h.01"/></svg>Product information is intended for healthcare professionals in Pakistan.</span>
+      </div>
+    </section>
+    <div class="toolbar wrap">
+      <div class="chips" role="group" aria-label="Filter by indication" data-chips></div>
+      <label class="search"><span class="sr-only">Search products</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" placeholder="Search brand or molecule" data-search /></label>
+    </div>
+    <section class="wrap" aria-live="polite">
+      <div class="grid" data-grid></div>
+      <p class="empty" data-empty hidden>No products match that search.</p>
+    </section>
+  </main>
+
+  <div class="drawer" data-drawer aria-hidden="true">
+    <div class="drawer-bg" data-close></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="dr-title">
+      <button class="drawer-close" data-close aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <div data-drawer-body></div>
+    </div>
+  </div>
+
+  <!-- @include footer.html -->
+  <script type="module" src="/src/products.js"></script>
+</body>
+</html>
